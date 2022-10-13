@@ -1399,9 +1399,6 @@ class Model(Base):
                 i1.to(DType.FLOAT)
                 o1.to(DType.FLOAT)
                 graph = self.get_graph_by_node(node)
-                graph.add_tensor(i0)
-                graph.add_tensor(i1)
-                graph.add_tensor(o1)
                 n = self.make_node(
                     name=node.name + "_float",
                     op_type="MatMul",
@@ -1409,6 +1406,9 @@ class Model(Base):
                     outputs=[o1.name],
                     attrs=node.attrs,
                 )
+                graph.add_tensor(i0, recursive=True)
+                graph.add_tensor(i1, recursive=True)
+                graph.add_tensor(o1, recursive=True)
                 graph.add_node(n)
                 m = self.create_model_from_nodes(n)
                 m.infer_shapes()
@@ -1433,9 +1433,6 @@ class Model(Base):
                 i1.to(DType.FLOAT)
                 o1.to(DType.FLOAT)
                 graph = self.get_graph_by_node(node)
-                graph.add_tensor(i0)
-                graph.add_tensor(i1)
-                graph.add_tensor(o1)
                 n = self.make_node(
                     name=node.name + "_float",
                     op_type="Conv",
@@ -1444,6 +1441,9 @@ class Model(Base):
                     attrs=node.attrs,
                 )
                 graph.add_node(n)
+                graph.add_tensor(i0, recursive=True)
+                graph.add_tensor(i1, recursive=True)
+                graph.add_tensor(o1, recursive=True)
                 m = self.create_model_from_nodes(n)
                 m.infer_shapes()
                 o1.shape = m.name_to_tensor[o1.name].shape
