@@ -1402,6 +1402,7 @@ class Model(Base):
                 graph.add_tensor(i0)
                 graph.add_tensor(i1)
                 graph.add_tensor(o1)
+                self.update()
                 n = self.make_node(
                     name=node.name + "_float",
                     op_type="MatMul",
@@ -1439,6 +1440,7 @@ class Model(Base):
                 graph.add_tensor(i0)
                 graph.add_tensor(i1)
                 graph.add_tensor(o1)
+                self.update()
                 n = self.make_node(
                     name=node.name + "_float",
                     op_type="Conv",
