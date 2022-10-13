@@ -1965,7 +1965,10 @@ class Model(Base):
         name_to_tensor = {
             v.name: v.clone() for v in self.value_info if v.name in tensor_names
         }
-        assert set(tensor_names) == set(name_to_tensor.keys())
+        if not set(tensor_names) == set(name_to_tensor.keys()):
+            logger.warning(
+                f"{set(tensor_names) - set(name_to_tensor.keys())} not found"
+            )
 
         tensors = list(name_to_tensor.values())
         graph = Graph(
