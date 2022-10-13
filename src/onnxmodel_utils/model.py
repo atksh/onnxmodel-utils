@@ -1398,7 +1398,7 @@ class Model(Base):
                 i0.to(DType.FLOAT)
                 i1.to(DType.FLOAT)
                 o1.to(DType.FLOAT)
-                graph = self.get_graph_by_node(node)
+                graph = self.get_graph_by_node(node).clone()
                 graph.add_tensor(i0)
                 graph.add_tensor(i1)
                 graph.add_tensor(o1)
@@ -1432,7 +1432,7 @@ class Model(Base):
                 i0.to(DType.FLOAT)
                 i1.to(DType.FLOAT)
                 o1.to(DType.FLOAT)
-                graph = self.get_graph_by_node(node)
+                graph = self.get_graph_by_node(node).clone()
                 graph.add_tensor(i0)
                 graph.add_tensor(i1)
                 graph.add_tensor(o1)
@@ -1966,7 +1966,7 @@ class Model(Base):
             v.name: v.clone() for v in self.value_info if v.name in tensor_names
         }
         if not set(tensor_names) == set(name_to_tensor.keys()):
-            logger.warning(
+            raise ValueError(
                 f"{set(tensor_names) - set(name_to_tensor.keys())} not found"
             )
 
